@@ -73,7 +73,7 @@ def find_steps(maze, loc, n):
     if loc[1] > 0:
         left = maze[loc[0]][loc[1]-1]
         if left == '.':
-            r_locs.append(loc[0][loc[1]-1])
+            r_locs.append([loc[0], loc[1]-1])
 
     return r_locs
 
