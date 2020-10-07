@@ -1,32 +1,22 @@
-# Task
-# You are at position [0, 0] in maze NxN and you can only move in one of the four cardinal directions (i.e. North, East, South, West). Return true if you can reach position [N-1, N-1] or false otherwise.
-#
-# Empty positions are marked .. Walls are marked W. Start and exit positions are empty in all test cases.
-#
-# Path Finder Series:
-# #1: can you reach the exit?
-# #2: shortest path
-# #3: the Alpinist
-# #4: where are you?
-# #5: there's someone here
 
 
 def path_finder(maze):
     maze = maze.split()
-
     array_maze = []
-    for line in maze:
+    locations = {}
+
+    for i in range(len(maze)):
         new_line = []
-        for s in line:
-            new_line.append(s)
+        for j in range(len(maze[i])):
+            new_line.append(maze[i][j])
+            if maze[i][j] == '0':
+                locations[0] = [[i,j]]
         array_maze.append(new_line)
 
     n = len(array_maze)
-
-    locations={0:[[0,0]]}
-
-    #array_maze[n-1][n-1]='F'
-    array_maze[0][0]=0
+    if not locations:
+        locations[0] = [[0,0]]
+        array_maze[0][0] = 0
 
     i = 0
     while True:
@@ -46,10 +36,12 @@ def path_finder(maze):
 
 def find_steps(maze, loc, n):
     r_locs = []
-    num = maze[loc[0]][loc[1]]
+
     # up
     if loc[0] > 0:
         up = maze[loc[0]-1][loc[1]]
+        if up == 'F':
+            return ['F']
         if up == '.':
             r_locs.append([loc[0]-1, loc[1]])
 
@@ -72,6 +64,8 @@ def find_steps(maze, loc, n):
     #left
     if loc[1] > 0:
         left = maze[loc[0]][loc[1]-1]
+        if left == 'F':
+            return ['F']
         if left == '.':
             r_locs.append([loc[0], loc[1]-1])
 
@@ -83,12 +77,12 @@ def print_maze(maze):
     print("\n")
 
 d = "\n".join([
-  ".W.F..",
-  ".W....",
-  ".W.WW.",
-  "....W.",
-  "....W.",
-  "....W."
+  ".W.F.." + ".W...." * 5,
+  ".W...." * 6,
+  ".W.WW." * 6,
+  "....W." * 6,
+  "....W." * 6,
+  "....W." * 5 + "....W0"
 ])
 
 
